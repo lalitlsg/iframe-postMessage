@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Parent window
+    <button onclick="openChildWindow()">Open child window</button>
+    <button onclick="sendMsgToChild()">Send msg to child window</button>
+    Msg from child <p id="msg"></p>
+    <script>
+        let childWindow;
+
+        function openChildWindow() {
+            childWindow = open('./childWindow.html', 'childWindow', 'width=500,height=500');    
+        }
+
+        function sendMsgToChild() {
+            childWindow.postMessage('I am parent window', 'http://localhost:5500/parentOfWindow.html')
+        }
+
+        window.addEventListener('message', e => {
+            document.getElementById('msg').textContent += e.data;
+        });
+    </script>
+</body>
+</html>
