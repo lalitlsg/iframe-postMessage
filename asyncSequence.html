@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const async1 = (callback) => {
+        callback(undefined, 1);
+      };
+
+      const async2 = (callback) => {
+        callback(undefined, 2);
+      };
+
+      const async3 = (callback) => {
+        callback(undefined, 3);
+      };
+
+      function parallel(funcs) {
+        return (mainCB, initialVal) => {
+          const res = [];
+
+          const asyncCB = (err, val) => {
+            res.push(val);
+            if(res.length === funcs.length) {
+              mainCB(undefined, res);
+            }
+          };
+
+          for (const fn of funcs) {
+            fn(asyncCB);
+          }
+
+        };
+      }
+
+      const all = parallel([async1, async2, async3]);
+
+      all((error, data) => {
+        console.log(data); // [1, 2, 3]
+      }, 1);
+    </script>
+  </body>
+</html>
