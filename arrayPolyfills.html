@@ -43,9 +43,15 @@
         }
         return -1;
       }
-
-      const res = arr.myFind((val, index, ar) => val < 0);
-      console.log(res);
+      
+      // reduce polyfill
+      Array.prototype.myReduce = function(cb, initialVal) {
+        let acc = initialVal;
+        for(let i=0; i<this.length; i++) {
+            acc = cb(acc, this[i], i, this);
+        }
+        return acc;
+      }
     </script>
   </body>
 </html>
