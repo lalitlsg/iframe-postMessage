@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const p1 = new Promise((res, rej) => {
+        setTimeout(() => {
+          res('first');
+        }, 3000);
+      });
+
+      const p2 = new Promise((res, rej) => {
+        setTimeout(() => {
+          res('second');
+        }, 2000);
+      });
+
+      const p3 = Promise.reject('ERROR');
+
+      const allSettled = async (...promises) => {
+        return new Promise(async (resolve, reject) => {
+          const ans = [];
+          for (const p of promises) {
+            try {
+              const res = await p;
+              ans.push(res);
+            } catch (error) {
+              ans.push(error);
+            }
+          }
+          resolve(ans);
+        });
+      };
+      const ans = allSettled(p1, p3, p2);
+      ans.then((res) => {
+        console.log(res);
+      });
+    </script>
+  </body>
+</html>
