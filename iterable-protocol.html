@@ -31,6 +31,30 @@
             console.log(el);
         }
 
+        const names = {
+            lalit: 'JS',
+            vishal: 'Java', 
+            yash: 'Android',
+
+            [Symbol.iterator]: () => {
+                let index = 0;
+                const keys = Object.keys(names);
+
+                return {
+                    next: () => {
+                        return {
+                            value: names[keys[index++]], 
+                            done: index > keys.length
+                        }
+                    }
+                }
+            }
+        }
+
+        for(const el of names) {
+            console.log(el);
+        }
+ 
     </script>
 </body>
 </html>
