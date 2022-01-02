@@ -39,7 +39,6 @@
             [Symbol.iterator]: () => {
                 let index = 0;
                 const keys = Object.keys(names);
-
                 return {
                     next: () => {
                         return {
@@ -54,6 +53,7 @@
         for(const el of names) {
             console.log(el);
         }
+
  
     </script>
 </body>
