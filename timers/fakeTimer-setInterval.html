@@ -89,6 +89,16 @@
         count1 += 1;
       }, 200);
 
+      let count2 = 0;
+      const id2 = setInterval(() => {
+        if (count2 > 3) {
+          clearInterval(id2);
+        } else {
+          log();
+        }
+        count2 += 1;
+      }, 10);
+
       fakeTimer.tick();
       fakeTimer.uninstall();
 
