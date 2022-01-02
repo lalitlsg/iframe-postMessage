@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class FakeTimer {
+        constructor() {
+          this.o_setInterval = window.setInterval;
+          this.o_clearInterval = window.clearInterval;
+          this.o_datenow = Date.now;
+          this.currId = 1;
+          this.currTime = 0;
+          this.arr = [];
+        }
+        install() {
+          // replace window.setInterval, window.clearInterval, Date.now
+          // with your implementation
+          window.setInterval = (cb, time, ...args) => {
+            const id = this.currId;
+            this.currId++;
+            this.arr.push({ id, cb, time: time + this.currTime, initialTime: time, args });
+            this.arr.sort((a, b) => b.time - a.time);
+            return id;
+          };
+
+          window.clearInterval = (timerId) => {
+            this.arr = this.arr.filter((fn) => fn.id !== timerId);
+          };
+
+          Date.now = () => {
+            return this.currTime;
+          };
+        }
+
+        uninstall() {
+          // restore the original implementation of
+          // window.setInterval, window.clearInterval, Date.now
+          window.setInterval = this.o_setInterval;
+          window.clearInterval = this.o_clearInterval;
+          Date.now = this.o_datenow;
+        }
+
+        tick() {
+          // run the scheduled functions without waiting
+          while (this.arr.length) {
+            const { id, cb, time, initialTime ,args } = this.arr[this.arr.length - 1];
+            this.currTime = time;
+            cb(...args);
+            this.arr.forEach((fn) => {
+              if (fn.id === id) {
+                fn.time += initialTime;
+              }
+            });
+          }
+        }
+      }
+
+      const fakeTimer = new FakeTimer();
+      fakeTimer.install();
+
+      const logs = [];
+      const log = () => {
+        logs.push(Date.now());
+      };
+
+      let count = 0;
+      const id = setInterval(() => {
+        if (count > 3) {
+          clearInterval(id);
+        } else {
+          log();
+        }
+        count += 1;
+      }, 100);
+      // log 'A' at every 100, stop at 200
+
+      let count1 = 0;
+      const id1 = setInterval(() => {
+        if (count1 > 3) {
+          clearInterval(id1);
+        } else {
+          log();
+        }
+        count1 += 1;
+      }, 200);
+
+      fakeTimer.tick();
+      fakeTimer.uninstall();
+
+      console.log(logs);
+    </script>
+  </body>
+</html>
