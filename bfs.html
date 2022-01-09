@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Node {
+        constructor(val) {
+          this.val = val;
+          this.next = null;
+        }
+
+        setNext(node) {
+          this.next = node;
+        }
+      }
+
+      class Queue {
+        constructor() {
+          this.head = null;
+          this.tail = null;
+          this.size = 0;
+        }
+
+        push(data) {
+          const node = new Node(data);
+          if (!this.head && !this.tail) {
+            this.head = node;
+            this.tail = node;
+          } else {
+            this.tail.setNext(node);
+            this.tail = node;
+          }
+          this.size++;
+        }
+
+        pop() {
+          const currNode = this.head;
+          const newHead = this.head.next;
+          if (newHead) {
+            this.head = newHead;
+          } else {
+            this.head = null;
+            this.tail = null;
+          }
+          this.size--;
+          return currNode;
+        }
+      }
+
+      /**
+       * @param {number[][]} grid
+       * @returns {number}
+       */
+      class Solution {
+        //Function to find minimum time required to rot all oranges.
+        orangesRotting(grid) {
+          // code here
+          const n = grid.length;
+          const m = grid[0].length;
+          const q = new Queue();
+          let totalOranges = 0;
+          let count = 0;
+          let min = 0;
+
+          for (let i = 0; i < n; i++) {
+            for (let j = 0; j < m; j++) {
+              if (grid[i][j] !== 0) {
+                totalOranges++;
+                if (grid[i][j] === 2) {
+                  q.push([i, j]);
+                  count++;
+                }
+              }
+            }
+          }
+
+
+          const dir = [
+            [-1, 0],
+            [0, 1],
+            [1, 0],
+            [0, -1],
+          ];
+
+          const isValid = (i, j) => {
+            if (i < 0 || j < 0 || i >= n || j >= m) return false;
+            return true;
+          };
+
+          while (q.size > 0) {
+            const size = q.size;
+            let flag = false;
+            for (let k = 0; k < size; k++) {
+              const popped = q.pop();
+              const [i, j] = popped.val;
+              for (let d = 0; d < 4; d++) {
+                const ni = i + dir[d][0];
+                const nj = j + dir[d][1];
+                if (isValid(ni, nj) && grid[ni][nj] === 1) {
+                  grid[ni][nj] = 2;
+                  q.push([ni, nj]);
+                  count++;
+                  flag = true;
+                }
+              }
+            }
+            if (flag) min++;
+          }
+
+          return totalOranges === count ? min : -1;
+        }
+      }
+
+      const s = new Solution();
+      const input = [
+          [2, 0, 0, 2], 
+          [1, 0, 0, 1], 
+          [1, 1, 0, 1]
+      ]
+     const res =  s.orangesRotting(input);
+     console.log(res);
+    </script>
+  </body>
+</html>
