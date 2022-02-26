@@ -23,7 +23,7 @@ print given java packages in following format
 		-Strings
 */
 
-// DFS Solution
+// DFS Solution.
 
 class Solution {
     private List<String> list;
