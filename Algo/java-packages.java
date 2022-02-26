@@ -10,7 +10,7 @@ org.writequit.Strings
 
 print given java packages in following format
 
--java	
+-java
 	-util
 		-vector
 		-Date
