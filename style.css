@@ -1,0 +1,10 @@
+div {
+    width: 100px;
+    height: 100px;
+    background-color: black;
+}
+
+#one {
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
