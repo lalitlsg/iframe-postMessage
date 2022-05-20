@@ -1,3 +1,9 @@
-const div = document.getElementById('row');
-console.log(div.tagName);
-console.log(div.children);
+const iterate = async () => {
+  for (let i = 0; i < 5; i++) {
+    console.log(i);
+  }
+
+  return { data: "abc" };
+};
+
+iterate().then((res) => console.log(res));
