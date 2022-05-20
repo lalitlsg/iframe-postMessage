@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var name = 'oyo';
+
+      const obj = {
+        name: 'localObject',
+        getName: () => {
+          return this.name;
+        },
+        showName: function () {
+          return this.name;
+        },
+        iife: (function () {
+          return this.name;
+        })(),
+      };
+
+      console.log(obj.getName());
+      console.log(obj.showName());
+
+      const showName = obj.showName;
+      console.log(showName());
+
+      const a = obj.getName.bind(obj);
+      console.log(a());
+      console.log(obj.iife);
+    </script>
+  </body>
+</html>

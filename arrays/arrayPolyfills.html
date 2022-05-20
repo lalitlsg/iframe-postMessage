@@ -28,30 +28,35 @@
       // filter polyfill
       Array.prototype.myFilter = function (cb) {
         const result = [];
-        for(let i=0; i<this.length; i++) {
-            const cbRes = cb(this[i], i, this);
-            if(cbRes) result.push(this[i]);
+        for (let i = 0; i < this.length; i++) {
+          const cbRes = cb(this[i], i, this);
+          if (cbRes) result.push(this[i]);
         }
         return result;
-      }
+      };
 
       // find polyfill
       Array.prototype.myFind = function (cb) {
-        for(let i=0; i<this.length; i++) {
-            const cbRes = cb(this[i], i, this);
-            if(cbRes) return this[i];
+        for (let i = 0; i < this.length; i++) {
+          const cbRes = cb(this[i], i, this);
+          if (cbRes) return this[i];
         }
         return -1;
-      }
-      
+      };
+
       // reduce polyfill
-      Array.prototype.myReduce = function(cb, initialVal) {
+      Array.prototype.myReduce = function (cb, initialVal) {
         let acc = initialVal;
-        for(let i=0; i<this.length; i++) {
-            acc = cb(acc, this[i], i, this);
+        for (let i = 0; i < this.length; i++) {
+          acc = cb(acc, this[i], i, this);
         }
         return acc;
-      }
+      };
+
+      // const arr = [1, 2, 4, 8, 10];
+      arr.myReduce((acc, curr) => {
+        return acc + curr;
+      }, 0);
     </script>
   </body>
 </html>
